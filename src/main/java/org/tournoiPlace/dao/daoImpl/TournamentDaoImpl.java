@@ -1,4 +1,6 @@
 package org.tournoiPlace.dao.daoImpl;
 
-public class TournamentDaoImpl {
+import org.tournoiPlace.dao.TournamentDao;
+
+public class TournamentDaoImpl implements TournamentDao {
 }

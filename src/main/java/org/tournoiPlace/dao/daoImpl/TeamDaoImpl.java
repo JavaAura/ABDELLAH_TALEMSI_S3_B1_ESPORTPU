@@ -1,4 +1,5 @@
 package org.tournoiPlace.dao.daoImpl;
 
-public class TeamDaoImpl {
+
+public class TeamDaoImpl{
 }
