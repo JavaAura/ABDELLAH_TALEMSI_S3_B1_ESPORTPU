@@ -10,18 +10,9 @@
            http://www.springframework.org/schema/tx
            http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-
-
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.h2.Driver"/>
-        <property name="url" value="jdbc:h2:mem:tournament;DB_CLOSE_DELAY=-1"/>
-        <property name="username" value="sa"/>
-        <property name="password" value=""/>
-    </bean>
-
     <!-- JPA EntityManagerFactory -->
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
+
         <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"/>
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
@@ -37,11 +28,21 @@
     </bean>
 
     <!-- DAO Bean -->
-    <bean id="tournamentDao" class="org.tournoiPlace.dao.daoImpl.TournamentDaoImpl" />
+    <bean id="tournamentDao" class="org.tournoiPlace.dao.daoImpl.TournamentDaoImpl">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+    <bean id="gameDao" class="org.tournoiPlace.dao.daoImpl.GameDaoImpl">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+
 
     <bean id="tournamentService" class="org.tournoiPlace.service.impl.TournamentServiceImpl">
         <!-- Injecting the tournamentDao bean via constructor -->
         <constructor-arg ref="tournamentDao" />
+    </bean>
+    <bean id="gameService" class="org.tournoiPlace.service.impl.GameServiceImpl">
+        <!-- Injecting the tournamentDao bean via constructor -->
+        <constructor-arg ref="gameDao" />
     </bean>
 
 

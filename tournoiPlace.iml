@@ -6,6 +6,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
+          <factory-entry name="entityManagerFactory" />
           <factory-entry name="esportPU" value="cbc2a22c-1b14-45ef-9d07-cc56a945f890" />
         </datasource-mapping>
         <naming-strategy-map />

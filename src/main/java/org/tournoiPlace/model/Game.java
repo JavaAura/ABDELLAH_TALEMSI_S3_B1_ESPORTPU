@@ -15,7 +15,7 @@ public class Game implements Serializable {
     private String nom;
 
     @Column(nullable = false)
-    private Double difficulte;
+    private String difficulte;
 
     @Column(name = "duree_moyenne_match", nullable = false)
     private Double dureeMoyenneMatch;
@@ -32,10 +32,10 @@ public class Game implements Serializable {
     public void setNom(String nom) {
         this.nom = nom;
     }
-    public Double getDifficulte() {
+    public String getDifficulte() {
         return difficulte;
     }
-    public void setDifficulte(Double difficulte) {
+    public void setDifficulte(String difficulte) {
         this.difficulte = difficulte;
     }
     public Double getDureeMoyenneMatch() {
