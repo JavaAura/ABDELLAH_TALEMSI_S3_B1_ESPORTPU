@@ -2,6 +2,7 @@ package org.tournoiPlace.main;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.tournoiPlace.model.Game;
+import org.tournoiPlace.provider.ApplicationContextProvider;
 import org.tournoiPlace.service.GameService;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public class GameMenu {
     private static GameService gameService;
 
     public static void showMenu(Scanner scanner) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        ApplicationContext context = ApplicationContextProvider.getContext();
         gameService = (GameService) context.getBean("gameService");
 
         int choice;
@@ -50,8 +51,6 @@ public class GameMenu {
                     System.out.println("Invalid choice. Please try again.");
             }
         } while (choice != 0);
-
-        scanner.close();
     }
 
     private static void addGame(Scanner scanner) {

@@ -46,4 +46,9 @@ public class TournamentServiceImpl implements TournamentService {
     public List<Tournament> getTournaments() {
         return tournamentDao.getTournaments();
     }
+
+    @Override
+    public double calculerDureeEstimeeTournoi(int tournoiId) {
+        return tournamentDao.calculerDureeEstimeeTournoi(tournoiId);
+    }
 }

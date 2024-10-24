@@ -1,9 +1,12 @@
 package org.tournoiPlace.main;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.tournoiPlace.model.Game;
 import org.tournoiPlace.model.Tournament;
+import org.tournoiPlace.provider.ApplicationContextProvider;
 import org.tournoiPlace.service.GameService;
 import org.tournoiPlace.service.TournamentService;
 
@@ -15,9 +18,10 @@ public class TournamentMenu {
 
     private static TournamentService tournamentService;
     private static GameService gameService;
+    private static final Logger logger = LoggerFactory.getLogger(TournamentMenu.class);
 
     public static void showMenu(Scanner scanner) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        ApplicationContext context = ApplicationContextProvider.getContext();
         tournamentService = (TournamentService) context.getBean("tournamentService");
         gameService = (GameService) context.getBean("gameService");
 
@@ -31,6 +35,7 @@ public class TournamentMenu {
             System.out.println("3. View a tournament by ID");
             System.out.println("4. View all tournaments");
             System.out.println("5. Delete a tournament");
+            System.out.println("6. Calculate Estimated Duration of a Tournament");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
@@ -51,6 +56,9 @@ public class TournamentMenu {
                 case 5:
                     deleteTournament(scanner);
                     break;
+                case 6:
+                    calculateEstimatedDuration(scanner);
+                    break;
                 case 0:
                     System.out.println("Exiting...");
                     break;
@@ -59,7 +67,27 @@ public class TournamentMenu {
             }
         } while (choice != 0);
 
-        scanner.close();
+    }
+
+    private static void calculateEstimatedDuration(Scanner scanner) {
+        System.out.println("\n=== Calculate Estimated Duration of a Tournament ===");
+        List<Tournament> tournaments = tournamentService.getTournaments();
+        if (tournaments.isEmpty()) {
+            System.out.println("No tournaments found. Please add a tournaments first.");
+            return;
+        }
+
+        System.out.println("\nAvailable tournaments:");
+        for (Tournament tournament : tournaments) {
+            System.out.println("Team ID: " + tournament.getId() + ", Name: " + tournament.getTitre());
+        }
+        System.out.print("Enter the tournament ID to assign: ");
+        int tournamentId = scanner.nextInt();
+        scanner.nextLine();
+
+        double durre_estimated = tournamentService.calculerDureeEstimeeTournoi(tournamentId);
+
+        logger.info(" Estimated Duration of a Tournament is: " + durre_estimated);
     }
 
     private static void addTournament(Scanner scanner) {
@@ -295,6 +323,9 @@ public class TournamentMenu {
                         ", Game: " + tournament.getGame().getNom() +
                         ", Start Date: " + tournament.getDateDebut() +
                         ", End Date: " + tournament.getDateFin() +
+                        ", Spectator Number: " + tournament.getNombreDeSpectateurs() +
+                        ", Ceremonie Duration: " + tournament.getTempsCeremonie() +
+                        ", Pause Between Matches: " + tournament.getTempsPauseEntreMatchs() +
                         ", Status: " + tournament.getStatut());
             }
         }

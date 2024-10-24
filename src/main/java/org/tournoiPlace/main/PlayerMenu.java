@@ -4,6 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.tournoiPlace.model.Player;
 import org.tournoiPlace.model.Team;
+import org.tournoiPlace.provider.ApplicationContextProvider;
 import org.tournoiPlace.service.PlayerService;
 import org.tournoiPlace.service.TeamService;
 import org.slf4j.Logger;
@@ -18,7 +19,7 @@ public class PlayerMenu {
     private static final Logger logger = LoggerFactory.getLogger(PlayerMenu.class);
 
     public static void showMenu(Scanner scanner) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        ApplicationContext context = ApplicationContextProvider.getContext();
         playerService = (PlayerService) context.getBean("playerService");
         teamService = (TeamService) context.getBean("teamService");
         int choice;
@@ -62,8 +63,6 @@ public class PlayerMenu {
                     System.out.println("Invalid choice. Please try again.");
             }
         } while (choice != 0);
-
-        scanner.close();
     }
     private static void addPlayer(Scanner scanner) {
         System.out.println("\n=== Add New Player ===");

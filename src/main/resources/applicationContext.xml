@@ -27,7 +27,7 @@
         <constructor-arg value="-web,-webAllowOthers,-webPort,9092"/>
     </bean>
     <!-- DAO Bean -->
-    <bean id="tournamentDao" class="org.tournoiPlace.dao.daoImpl.TournamentDaoImpl">
+    <bean id="tournamentDao" class="org.tournoiPlace.dao.daoImpl.TournamentDaoExtension">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
     <bean id="gameDao" class="org.tournoiPlace.dao.daoImpl.GameDaoImpl">

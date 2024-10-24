@@ -14,6 +14,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         displayMainMenu(scanner);
+        scanner.close();
     }
     private static void displayMainMenu(Scanner scanner) {
         boolean exit = false;

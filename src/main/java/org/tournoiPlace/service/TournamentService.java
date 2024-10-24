@@ -11,4 +11,5 @@ public interface TournamentService {
     void deleteTournament(Tournament tournament);
     Tournament getTournament(int id);
     List<Tournament> getTournaments();
+    double calculerDureeEstimeeTournoi(int tournoiId);
 }

@@ -10,5 +10,6 @@ public interface TournamentDao {
     void deleteTournament(Tournament tournament);
     Tournament getTournament(int id);
     List<Tournament> getTournaments();
-    long calculerDureeEstimeeTournoi(Long tournoiId, int nbEquipes, long dureeMoyenneMatch, long tempsPause);
+    double calculerDureeEstimeeTournoi(int tournoiId);
+
 }

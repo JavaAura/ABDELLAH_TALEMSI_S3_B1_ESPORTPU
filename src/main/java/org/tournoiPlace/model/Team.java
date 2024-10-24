@@ -16,7 +16,7 @@ public class Team implements Serializable {
     private String nom;
 
 
-    @OneToMany(mappedBy = "team")
+    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     private List<Player> players;
 
 

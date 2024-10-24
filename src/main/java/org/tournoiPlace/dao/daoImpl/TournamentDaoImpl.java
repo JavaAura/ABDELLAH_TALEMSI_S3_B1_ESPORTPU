@@ -1,11 +1,13 @@
     package org.tournoiPlace.dao.daoImpl;
 
     import org.tournoiPlace.dao.TournamentDao;
+    import org.tournoiPlace.model.Game;
+    import org.tournoiPlace.model.Team;
     import org.tournoiPlace.model.Tournament;
 
     import javax.persistence.EntityManager;
     import javax.persistence.EntityManagerFactory;
-    import java.util.Collections;
+    import javax.persistence.TypedQuery;
     import java.util.List;
 
     public class TournamentDaoImpl implements TournamentDao {
@@ -90,9 +92,52 @@
             }
         }
 
-        @Override
-        public long calculerDureeEstimeeTournoi(Long tournoiId, int nbEquipes, long dureeMoyenneMatch, long tempsPause) {
-            // Basic rule: estimated duration = (Number of teams × Average match duration) + (Time between matches)
-            return (nbEquipes * dureeMoyenneMatch) + tempsPause;
+        public List<Team> findTeamsByTournoiId(int tournoiId) {
+            EntityManager em = getEntityManager();
+            try {
+                // Use a typed query to fetch the teams associated with the tournament ID
+                TypedQuery<Team> query = em.createQuery("SELECT t FROM Team t WHERE t.tournament.id = :tournoiId", Team.class);
+                query.setParameter("tournoiId", tournoiId);
+                return query.getResultList();
+            } finally {
+                em.close();
+            }
         }
-}
+
+        public Game findGameByTournoiId(int tournoiId) {
+            EntityManager em = getEntityManager();
+            try {
+                Tournament tournament = em.find(Tournament.class, tournoiId);
+                if (tournament != null) {
+                    return tournament.getGame();
+                } else {
+                    throw new IllegalArgumentException("Tournament not found");
+                }
+            } finally {
+                em.close();
+            }
+        }
+
+        @Override
+        public double calculerDureeEstimeeTournoi(int tournoiId) {
+            Tournament tournoi = this.getTournament(tournoiId);
+            if (tournoi == null) {
+                throw new IllegalArgumentException("Tournament not found");
+            }
+
+            // Step 2: Get the participating teams for this tournament
+            List<Team> teamsParticipating = this.findTeamsByTournoiId(tournoiId);
+            int nbEquipes = teamsParticipating.size();
+
+
+            int nbMatchs = nbEquipes - 1;
+
+            Game game = this.findGameByTournoiId(tournoiId);
+
+            // Step 4: Apply the formula
+
+            return (nbMatchs * game.getDureeMoyenneMatch()) + ((nbMatchs - 1) * tournoi.getTempsPauseEntreMatchs());
+        }
+
+
+    }

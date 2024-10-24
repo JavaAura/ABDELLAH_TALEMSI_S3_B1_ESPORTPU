@@ -5,6 +5,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.tournoiPlace.model.Player;
 import org.tournoiPlace.model.Team;
 import org.tournoiPlace.model.Tournament;
+import org.tournoiPlace.provider.ApplicationContextProvider;
 import org.tournoiPlace.service.PlayerService;
 import org.tournoiPlace.service.TeamService;
 import org.tournoiPlace.service.TournamentService;
@@ -18,7 +19,7 @@ public class TeamMenu {
     private static PlayerService playerService;
 
     public static void showMenu(Scanner scanner) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        ApplicationContext context = ApplicationContextProvider.getContext();
         teamService = (TeamService) context.getBean("teamService");
         tournamentService = (TournamentService) context.getBean("tournamentService");
         playerService = (PlayerService) context.getBean("playerService");
@@ -70,8 +71,6 @@ public class TeamMenu {
                     System.out.println("Invalid choice. Please try again.");
             }
         }while(choice != 0);
-
-        scanner.close();
     }
 
     private static void addTeam(Scanner scanner) {
