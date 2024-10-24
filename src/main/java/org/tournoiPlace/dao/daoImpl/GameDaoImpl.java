@@ -2,9 +2,12 @@ package org.tournoiPlace.dao.daoImpl;
 
 import org.tournoiPlace.dao.GameDao;
 import org.tournoiPlace.model.Game;
+import org.tournoiPlace.model.Tournament;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.util.Collections;
+import java.util.List;
 
 public class GameDaoImpl implements GameDao {
 
@@ -32,6 +35,16 @@ public class GameDaoImpl implements GameDao {
             throw e;
         }finally {
             em.close();
+        }
+    }
+
+    @Override
+    public List<Game> getAllGames() {
+        EntityManager entityManager = getEntityManager();
+        try {
+            return entityManager.createQuery("FROM Game", Game.class).getResultList();
+        } finally {
+            entityManager.close();
         }
     }
 }

@@ -28,21 +28,22 @@ public class TournamentServiceImpl implements TournamentService {
 
     @Override
     public void updateTournament(Tournament tournament) {
+        tournamentDao.updateTournament(tournament);
 
     }
 
     @Override
     public void deleteTournament(Tournament tournament) {
-
+        tournamentDao.deleteTournament(tournament);
     }
 
     @Override
     public Tournament getTournament(int id) {
-        return null;
+        return tournamentDao.getTournament(id);
     }
 
     @Override
     public List<Tournament> getTournaments() {
-        return Collections.emptyList();
+        return tournamentDao.getTournaments();
     }
 }

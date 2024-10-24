@@ -5,6 +5,9 @@ import org.tournoiPlace.dao.TournamentDao;
 import org.tournoiPlace.model.Game;
 import org.tournoiPlace.service.GameService;
 
+import java.util.Collections;
+import java.util.List;
+
 public class GameServiceImpl implements GameService {
     private final GameDao gameDao;
 
@@ -16,5 +19,10 @@ public class GameServiceImpl implements GameService {
     @Override
     public void addGame(Game game) {
         gameDao.addGame(game);
+    }
+
+    @Override
+    public List<Game> getGames() {
+        return gameDao.getAllGames();
     }
 }
