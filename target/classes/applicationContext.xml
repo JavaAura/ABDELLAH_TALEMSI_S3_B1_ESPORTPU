@@ -24,9 +24,8 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
     <bean id="h2WebServer" class="org.h2.tools.Server" factory-method="createWebServer" init-method="start" destroy-method="stop">
-        <constructor-arg value="-web,-webAllowOthers,-webPort,8082"/>
+        <constructor-arg value="-web,-webAllowOthers,-webPort,9092"/>
     </bean>
-
     <!-- DAO Bean -->
     <bean id="tournamentDao" class="org.tournoiPlace.dao.daoImpl.TournamentDaoImpl">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
@@ -34,8 +33,15 @@
     <bean id="gameDao" class="org.tournoiPlace.dao.daoImpl.GameDaoImpl">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
+    <bean id="teamDao" class="org.tournoiPlace.dao.daoImpl.TeamDaoImpl">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+    <bean id="playerDao" class="org.tournoiPlace.dao.daoImpl.PlayerDaoImpl">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
 
 
+    <!-- Service Bean -->
     <bean id="tournamentService" class="org.tournoiPlace.service.impl.TournamentServiceImpl">
         <!-- Injecting the tournamentDao bean via constructor -->
         <constructor-arg ref="tournamentDao" />
@@ -43,6 +49,14 @@
     <bean id="gameService" class="org.tournoiPlace.service.impl.GameServiceImpl">
         <!-- Injecting the tournamentDao bean via constructor -->
         <constructor-arg ref="gameDao" />
+    </bean>
+    <bean id="teamService" class="org.tournoiPlace.service.impl.TeamServiceImpl">
+        <!-- Injecting the tournamentDao bean via constructor -->
+        <constructor-arg ref="teamDao" />
+    </bean>
+    <bean id="playerService" class="org.tournoiPlace.service.impl.PlayerServiceImpl">
+        <!-- Injecting the tournamentDao bean via constructor -->
+        <constructor-arg ref="playerDao" />
     </bean>
 
 

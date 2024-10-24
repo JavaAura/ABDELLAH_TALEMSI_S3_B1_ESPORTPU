@@ -43,6 +43,9 @@ public class Tournament implements Serializable {
     @Column(name = "temps_pause_matchs")
     private Double tempsPauseEntreMatchs;
 
+    @Column(name = "nombre_de_spectateurs")
+    private String nombreDeSpectateurs;
+
     @Column(name = "temps_ceremonie")
     private Double tempsCeremonie;
 
@@ -110,6 +113,12 @@ public class Tournament implements Serializable {
     }
     public void setStatut(Statut statut) {
         this.statut = statut;
+    }
+    public String getNombreDeSpectateurs() {
+        return nombreDeSpectateurs;
+    }
+    public void setNombreDeSpectateurs(String nombreDeSpectateurs) {
+        this.nombreDeSpectateurs = nombreDeSpectateurs;
     }
 
 }

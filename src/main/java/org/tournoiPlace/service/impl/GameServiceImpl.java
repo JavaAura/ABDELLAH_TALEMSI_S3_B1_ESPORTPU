@@ -25,4 +25,19 @@ public class GameServiceImpl implements GameService {
     public List<Game> getGames() {
         return gameDao.getAllGames();
     }
+
+    @Override
+    public Game getGame(int id) {
+        return gameDao.getGameById(id);
+    }
+
+    @Override
+    public void deleteGame(int id) {
+           gameDao.deleteGame(id);
+    }
+
+    @Override
+    public void updateGame(Game game) {
+          gameDao.updateGame(game);
+    }
 }

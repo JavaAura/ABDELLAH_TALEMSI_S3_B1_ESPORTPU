@@ -8,34 +8,48 @@ import org.tournoiPlace.service.GameService;
 import org.tournoiPlace.service.TournamentService;
 
 import java.time.LocalDate;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        displayMainMenu(scanner);
+    }
+    private static void displayMainMenu(Scanner scanner) {
+        boolean exit = false;
 
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        while (!exit) {
+            System.out.println("\n=== Main Menu ===");
+            System.out.println("1. Tournament Menu");
+            System.out.println("2. Game Menu");
+            System.out.println("3. Team Menu");
+            System.out.println("4. Team Menu");
+            System.out.println("5. Exit");
 
-        TournamentService tournamentService = (TournamentService) context.getBean("tournamentService");
-        GameService gameService = (GameService) context.getBean("gameService");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
 
-        Game newGame = new Game();
-        newGame.setNom("Football");
-        newGame.setDifficulte("Medium");
-        newGame.setDureeMoyenneMatch(90.0);
-
-        gameService.addGame(newGame);
-
-
-        Tournament newTournament = new Tournament();
-        newTournament.setTitre("Championship 2024");
-        newTournament.setGame(newGame);
-        newTournament.setDateDebut(LocalDate.now());
-        newTournament.setDateFin(LocalDate.parse("2024-12-12"));
-        newTournament.setStatut(Tournament.Statut.PLANIFIE);
-
-        tournamentService.runSampleOperations();
-        tournamentService.addTournament(newTournament);
-
-        System.out.println(newTournament);
-
+            switch (choice) {
+                case 1:
+                    TournamentMenu.showMenu(scanner);
+                    break;
+                case 2:
+                    GameMenu.showMenu(scanner);
+                    break;
+                case 3:
+                    TeamMenu.showMenu(scanner);
+                    break;
+                case 4:
+                    PlayerMenu.showMenu(scanner);
+                case 5:
+                    exit = true;
+                    System.out.println("Exiting the application...");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+        }
     }
 }
