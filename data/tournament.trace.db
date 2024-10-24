@@ -101,7 +101,7 @@ Wrong user name or password [28000-220]
 	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
 	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:144)
 	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:85)
-	at org.tournoiPlace.main.Main.main(Main.java:15)
+	at org.tournoiPlace.presentation.Main.main(Main.java:15)
 Caused by: org.h2.jdbc.JdbcSQLInvalidAuthorizationSpecException: Mauvais nom d'utilisateur ou mot de passe
 Wrong user name or password [28000-220]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:522)
@@ -509,7 +509,7 @@ General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/mo
 	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
 	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:144)
 	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:85)
-	at org.tournoiPlace.main.TeamMenu.main(TeamMenu.java:18)
+	at org.tournoiPlace.presentation.TeamMenu.main(TeamMenu.java:18)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Erreur générale: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/moham/IdeaProjects/tournoiPlace/tournoiPlace/data/tournament.mv.db [2.2.220/7]"
 General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/moham/IdeaProjects/tournoiPlace/tournoiPlace/data/tournament.mv.db [2.2.220/7]" [50000-220]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:566)
@@ -622,7 +622,7 @@ General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/mo
 	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
 	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:144)
 	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:85)
-	at org.tournoiPlace.main.PlayerMenu.main(PlayerMenu.java:21)
+	at org.tournoiPlace.presentation.PlayerMenu.main(PlayerMenu.java:21)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Erreur générale: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/moham/IdeaProjects/tournoiPlace/tournoiPlace/data/tournament.mv.db [2.2.220/7]"
 General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/moham/IdeaProjects/tournoiPlace/tournoiPlace/data/tournament.mv.db [2.2.220/7]" [50000-220]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:566)

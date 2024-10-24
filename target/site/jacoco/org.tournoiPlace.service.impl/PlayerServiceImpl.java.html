@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PlayerServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tournoiPlace</a> &gt; <a href="index.source.html" class="el_package">org.tournoiPlace.service.impl</a> &gt; <span class="el_source">PlayerServiceImpl.java</span></div><h1>PlayerServiceImpl.java</h1><pre class="source lang-java linenums">package org.tournoiPlace.service.impl;
+
+import org.tournoiPlace.dao.PlayerDao;
+import org.tournoiPlace.model.Player;
+import org.tournoiPlace.service.PlayerService;
+
+import java.util.Collections;
+import java.util.List;
+
+public class PlayerServiceImpl implements PlayerService {
+    private final PlayerDao playerDao;
+
+
+<span class="fc" id="L14">    public PlayerServiceImpl(PlayerDao playerDao) {</span>
+<span class="fc" id="L15">        this.playerDao = playerDao;</span>
+<span class="fc" id="L16">    }</span>
+    @Override
+    public void addPlayer(Player player) {
+<span class="nc" id="L19">        playerDao.addPlayer(player);</span>
+<span class="nc" id="L20">    }</span>
+
+    @Override
+    public Player getPlayer(int id) {
+<span class="nc" id="L24">        return playerDao.getPlayer(id);</span>
+    }
+
+    @Override
+    public void deletePlayer(int playerId) {
+<span class="nc" id="L29">        playerDao.deletePlayer(playerId);</span>
+<span class="nc" id="L30">    }</span>
+
+    @Override
+    public List&lt;Player&gt; getPlayers() {
+<span class="nc" id="L34">        return playerDao.getPlayers();</span>
+    }
+
+    @Override
+    public void updatePlayer(Player player) {
+<span class="nc" id="L39">        playerDao.updatePlayer(player);</span>
+<span class="nc" id="L40">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

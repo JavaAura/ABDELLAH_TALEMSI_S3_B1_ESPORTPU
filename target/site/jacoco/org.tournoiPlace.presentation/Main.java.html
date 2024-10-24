@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tournoiPlace</a> &gt; <a href="index.source.html" class="el_package">org.tournoiPlace.presentation</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package org.tournoiPlace.presentation;
+
+import java.util.Scanner;
+
+<span class="nc" id="L5">public class Main {</span>
+    public static void main(String[] args) {
+<span class="nc" id="L7">        Scanner scanner = new Scanner(System.in);</span>
+<span class="nc" id="L8">        displayMainMenu(scanner);</span>
+<span class="nc" id="L9">        scanner.close();</span>
+<span class="nc" id="L10">    }</span>
+    private static void displayMainMenu(Scanner scanner) {
+<span class="nc" id="L12">        boolean exit = false;</span>
+
+<span class="nc bnc" id="L14" title="All 2 branches missed.">        while (!exit) {</span>
+<span class="nc" id="L15">            System.out.println(&quot;\n=== Main Menu ===&quot;);</span>
+<span class="nc" id="L16">            System.out.println(&quot;1. Tournament Menu&quot;);</span>
+<span class="nc" id="L17">            System.out.println(&quot;2. Game Menu&quot;);</span>
+<span class="nc" id="L18">            System.out.println(&quot;3. Team Menu&quot;);</span>
+<span class="nc" id="L19">            System.out.println(&quot;4. Team Menu&quot;);</span>
+<span class="nc" id="L20">            System.out.println(&quot;5. Exit&quot;);</span>
+
+<span class="nc" id="L22">            System.out.print(&quot;Enter your choice: &quot;);</span>
+<span class="nc" id="L23">            int choice = scanner.nextInt();</span>
+<span class="nc" id="L24">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L26" title="All 6 branches missed.">            switch (choice) {</span>
+                case 1:
+<span class="nc" id="L28">                    TournamentMenu.showMenu(scanner);</span>
+<span class="nc" id="L29">                    break;</span>
+                case 2:
+<span class="nc" id="L31">                    GameMenu.showMenu(scanner);</span>
+<span class="nc" id="L32">                    break;</span>
+                case 3:
+<span class="nc" id="L34">                    TeamMenu.showMenu(scanner);</span>
+<span class="nc" id="L35">                    break;</span>
+                case 4:
+<span class="nc" id="L37">                    PlayerMenu.showMenu(scanner);</span>
+                case 5:
+<span class="nc" id="L39">                    exit = true;</span>
+<span class="nc" id="L40">                    System.out.println(&quot;Exiting the application...&quot;);</span>
+<span class="nc" id="L41">                    break;</span>
+                default:
+<span class="nc" id="L43">                    System.out.println(&quot;Invalid choice. Please try again.&quot;);</span>
+                    break;
+            }
+<span class="nc" id="L46">        }</span>
+<span class="nc" id="L47">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

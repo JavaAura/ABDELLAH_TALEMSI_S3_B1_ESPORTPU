@@ -12,4 +12,5 @@ public interface TournamentService {
     Tournament getTournament(int id);
     List<Tournament> getTournaments();
     double calculerDureeEstimeeTournoi(int tournoiId);
+    Tournament getTournamentByName(String name);
 }

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TournamentDaoExtension.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tournoiPlace</a> &gt; <a href="index.source.html" class="el_package">org.tournoiPlace.dao.daoImpl</a> &gt; <span class="el_source">TournamentDaoExtension.java</span></div><h1>TournamentDaoExtension.java</h1><pre class="source lang-java linenums">package org.tournoiPlace.dao.daoImpl;
+
+import org.tournoiPlace.dao.TournamentDao;
+import org.tournoiPlace.model.Game;
+import org.tournoiPlace.model.Team;
+import org.tournoiPlace.model.Tournament;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
+import java.util.List;
+
+<span class="fc" id="L13">public class TournamentDaoExtension implements TournamentDao {</span>
+    private EntityManagerFactory entityManagerFactory;
+
+    // Setter for dependency injection
+    public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
+<span class="fc" id="L18">        this.entityManagerFactory = entityManagerFactory;</span>
+<span class="fc" id="L19">    }</span>
+
+    private EntityManager getEntityManager() {
+<span class="fc" id="L22">        return entityManagerFactory.createEntityManager();</span>
+    }
+
+    @Override
+    public void addTournament(Tournament tournament) {
+<span class="fc" id="L27">        EntityManager em = getEntityManager();</span>
+        try {
+<span class="fc" id="L29">            em.getTransaction().begin();</span>
+<span class="fc" id="L30">            em.persist(tournament);</span>
+<span class="fc" id="L31">            em.getTransaction().commit();</span>
+<span class="nc" id="L32">        } catch (RuntimeException e) {</span>
+<span class="nc" id="L33">            em.getTransaction().rollback();</span>
+<span class="nc" id="L34">            throw e;</span>
+        } finally {
+<span class="fc" id="L36">            em.close();</span>
+        }
+<span class="fc" id="L38">    }</span>
+
+    @Override
+    public void updateTournament(Tournament tournament) {
+<span class="nc" id="L42">        EntityManager em = getEntityManager();</span>
+        try {
+<span class="nc" id="L44">            em.getTransaction().begin();</span>
+<span class="nc" id="L45">            em.merge(tournament);</span>
+<span class="nc" id="L46">            em.getTransaction().commit();</span>
+<span class="nc" id="L47">        } catch (RuntimeException e) {</span>
+<span class="nc" id="L48">            em.getTransaction().rollback();</span>
+<span class="nc" id="L49">            throw e;</span>
+        } finally {
+<span class="nc" id="L51">            em.close();</span>
+        }
+
+
+<span class="nc" id="L55">    }</span>
+
+    @Override
+    public void deleteTournament(Tournament tournament) {
+<span class="nc" id="L59">        EntityManager em = getEntityManager();</span>
+        try {
+<span class="nc" id="L61">            em.getTransaction().begin();</span>
+
+<span class="nc" id="L63">            Tournament tour = em.find(Tournament.class, tournament.getId());</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">            if (tour != null) {</span>
+<span class="nc" id="L65">                em.remove(tour);</span>
+            }
+
+<span class="nc" id="L68">            em.getTransaction().commit();</span>
+<span class="nc" id="L69">        } catch (RuntimeException e) {</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">            if (em.getTransaction().isActive()) {</span>
+<span class="nc" id="L71">                em.getTransaction().rollback();</span>
+            }
+<span class="nc" id="L73">            throw e;</span>
+        } finally {
+<span class="nc" id="L75">            em.close();</span>
+        }
+<span class="nc" id="L77">    }</span>
+
+    @Override
+    public Tournament getTournament(int id) {
+<span class="nc" id="L81">        EntityManager em = getEntityManager();</span>
+        try {
+<span class="nc" id="L83">            return em.find(Tournament.class, id);</span>
+<span class="nc" id="L84">        } catch (RuntimeException e) {</span>
+<span class="nc" id="L85">            em.getTransaction().rollback();</span>
+        }
+<span class="nc" id="L87">        return null;</span>
+    }
+
+    @Override
+    public List&lt;Tournament&gt; getTournaments() {
+<span class="nc" id="L92">        EntityManager entityManager = getEntityManager();</span>
+        try {
+<span class="nc" id="L94">            return entityManager.createQuery(&quot;FROM Tournament&quot;, Tournament.class).getResultList();</span>
+        } finally {
+<span class="nc" id="L96">            entityManager.close();</span>
+        }
+    }
+    public List&lt;Team&gt; findTeamsByTournoiId(int tournoiId) {
+<span class="nc" id="L100">        EntityManager em = getEntityManager();</span>
+        try {
+            // Use a typed query to fetch the teams associated with the tournament ID
+<span class="nc" id="L103">            TypedQuery&lt;Team&gt; query = em.createQuery(&quot;SELECT t FROM Team t WHERE t.tournament.id = :tournoiId&quot;, Team.class);</span>
+<span class="nc" id="L104">            query.setParameter(&quot;tournoiId&quot;, tournoiId);</span>
+<span class="nc" id="L105">            return query.getResultList();</span>
+        } finally {
+<span class="nc" id="L107">            em.close();</span>
+        }
+    }
+
+    public Game findGameByTournoiId(int tournoiId) {
+<span class="nc" id="L112">        EntityManager em = getEntityManager();</span>
+        try {
+<span class="nc" id="L114">            Tournament tournament = em.find(Tournament.class, tournoiId);</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">            if (tournament != null) {</span>
+<span class="nc" id="L116">                return tournament.getGame();</span>
+            } else {
+<span class="nc" id="L118">                throw new IllegalArgumentException(&quot;Tournament not found&quot;);</span>
+            }
+        } finally {
+<span class="nc" id="L121">            em.close();</span>
+        }
+    }
+
+    @Override
+    public double calculerDureeEstimeeTournoi(int tournoiId) {
+<span class="nc" id="L127">        Tournament tournoi = this.getTournament(tournoiId);</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        if (tournoi == null) {</span>
+<span class="nc" id="L129">            throw new IllegalArgumentException(&quot;Tournament not found&quot;);</span>
+        }
+
+        // Step 2: Get the participating teams for this tournament
+<span class="nc" id="L133">        List&lt;Team&gt; teamsParticipating = this.findTeamsByTournoiId(tournoiId);</span>
+<span class="nc" id="L134">        int nbEquipes = teamsParticipating.size();</span>
+
+
+<span class="nc" id="L137">        int nbMatchs = nbEquipes - 1;</span>
+
+<span class="nc" id="L139">        Game game = this.findGameByTournoiId(tournoiId);</span>
+
+        // Step 4: Apply the formula
+
+<span class="nc" id="L143">        double durre_estimate = (nbMatchs * game.getDureeMoyenneMatch()) + ((nbMatchs - 1) * tournoi.getTempsPauseEntreMatchs()) + (tournoi.getTempsCeremonie());</span>
+
+<span class="nc" id="L145">         tournoi.setDureeEstimee(durre_estimate);</span>
+<span class="nc" id="L146">         this.updateTournament(tournoi);</span>
+<span class="nc" id="L147">        return (nbMatchs * game.getDureeMoyenneMatch()) + ((nbMatchs - 1) * tournoi.getTempsPauseEntreMatchs()) + (tournoi.getTempsCeremonie());</span>
+    }
+
+    @Override
+    public Tournament findByName(String name) {
+<span class="fc" id="L152">        EntityManager em = getEntityManager();</span>
+        try {
+
+<span class="fc" id="L155">            TypedQuery&lt;Tournament&gt; query = em.createQuery(&quot;SELECT t FROM Tournament t WHERE t.titre = :name&quot;, Tournament.class);</span>
+<span class="fc" id="L156">            query.setParameter(&quot;name&quot;, name);</span>
+<span class="fc" id="L157">            return query.getResultStream().findFirst().orElse(null);</span>
+<span class="nc" id="L158">        } catch (RuntimeException e) {</span>
+<span class="nc" id="L159">            throw e;</span>
+        } finally {
+<span class="fc" id="L161">            em.close();</span>
+        }
+    }
+
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

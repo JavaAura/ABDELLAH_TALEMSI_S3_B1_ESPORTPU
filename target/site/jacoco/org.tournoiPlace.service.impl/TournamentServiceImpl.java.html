@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TournamentServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tournoiPlace</a> &gt; <a href="index.source.html" class="el_package">org.tournoiPlace.service.impl</a> &gt; <span class="el_source">TournamentServiceImpl.java</span></div><h1>TournamentServiceImpl.java</h1><pre class="source lang-java linenums">package org.tournoiPlace.service.impl;
+
+import org.tournoiPlace.dao.TournamentDao;
+import org.tournoiPlace.dao.daoImpl.TournamentDaoImpl;
+import org.tournoiPlace.model.Tournament;
+import org.tournoiPlace.service.TournamentService;
+
+import java.util.Collections;
+import java.util.List;
+
+public class TournamentServiceImpl implements TournamentService {
+    private final TournamentDao tournamentDao;
+
+    // Constructor injection for dependency
+<span class="fc" id="L15">    public TournamentServiceImpl(TournamentDao tournamentDao) {</span>
+<span class="fc" id="L16">        this.tournamentDao = tournamentDao;</span>
+<span class="fc" id="L17">    }</span>
+
+    @Override
+    public void runSampleOperations() {
+<span class="nc" id="L21">        System.out.println(&quot;Running application...&quot;);</span>
+<span class="nc" id="L22">    }</span>
+
+    @Override
+    public void addTournament(Tournament tournament) {
+<span class="fc" id="L26">        tournamentDao.addTournament(tournament);</span>
+<span class="fc" id="L27">    }</span>
+
+    @Override
+    public void updateTournament(Tournament tournament) {
+<span class="nc" id="L31">        tournamentDao.updateTournament(tournament);</span>
+
+<span class="nc" id="L33">    }</span>
+
+    @Override
+    public void deleteTournament(Tournament tournament) {
+<span class="fc" id="L37">        tournamentDao.deleteTournament(tournament);</span>
+<span class="fc" id="L38">    }</span>
+
+    @Override
+    public Tournament getTournament(int id) {
+<span class="fc" id="L42">        return tournamentDao.getTournament(id);</span>
+    }
+
+    @Override
+    public List&lt;Tournament&gt; getTournaments() {
+<span class="nc" id="L47">        return tournamentDao.getTournaments();</span>
+    }
+
+    @Override
+    public double calculerDureeEstimeeTournoi(int tournoiId) {
+<span class="nc" id="L52">        return tournamentDao.calculerDureeEstimeeTournoi(tournoiId);</span>
+    }
+
+    @Override
+    public Tournament getTournamentByName(String name) {
+<span class="fc" id="L57">        return tournamentDao.findByName(name);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

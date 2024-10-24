@@ -139,5 +139,10 @@
             return (nbMatchs * game.getDureeMoyenneMatch()) + ((nbMatchs - 1) * tournoi.getTempsPauseEntreMatchs());
         }
 
+        @Override
+        public Tournament findByName(String name) {
+            return null;
+        }
+
 
     }

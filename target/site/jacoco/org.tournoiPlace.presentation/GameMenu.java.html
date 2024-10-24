@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameMenu.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tournoiPlace</a> &gt; <a href="index.source.html" class="el_package">org.tournoiPlace.presentation</a> &gt; <span class="el_source">GameMenu.java</span></div><h1>GameMenu.java</h1><pre class="source lang-java linenums">package org.tournoiPlace.presentation;
+import org.springframework.context.ApplicationContext;
+import org.tournoiPlace.model.Game;
+import org.tournoiPlace.provider.ApplicationContextProvider;
+import org.tournoiPlace.service.GameService;
+
+import java.util.List;
+import java.util.Scanner;
+
+<span class="nc" id="L10">public class GameMenu {</span>
+    private static GameService gameService;
+
+    public static void showMenu(Scanner scanner) {
+<span class="nc" id="L14">        ApplicationContext context = ApplicationContextProvider.getContext();</span>
+<span class="nc" id="L15">        gameService = (GameService) context.getBean(&quot;gameService&quot;);</span>
+
+        int choice;
+
+        do {
+<span class="nc" id="L20">            System.out.println(&quot;\n=== Game Management Menu ===&quot;);</span>
+<span class="nc" id="L21">            System.out.println(&quot;1. Add a new game&quot;);</span>
+<span class="nc" id="L22">            System.out.println(&quot;2. Update an existing game&quot;);</span>
+<span class="nc" id="L23">            System.out.println(&quot;3. View a game by ID&quot;);</span>
+<span class="nc" id="L24">            System.out.println(&quot;4. View all games&quot;);</span>
+<span class="nc" id="L25">            System.out.println(&quot;5. Delete a game&quot;);</span>
+<span class="nc" id="L26">            System.out.println(&quot;0. Exit&quot;);</span>
+<span class="nc" id="L27">            System.out.print(&quot;Enter your choice: &quot;);</span>
+<span class="nc" id="L28">            choice = scanner.nextInt();</span>
+
+<span class="nc bnc" id="L30" title="All 7 branches missed.">            switch (choice) {</span>
+                case 1:
+<span class="nc" id="L32">                    addGame(scanner);</span>
+<span class="nc" id="L33">                    break;</span>
+                case 2:
+<span class="nc" id="L35">                    updateGame(scanner);</span>
+<span class="nc" id="L36">                    break;</span>
+                case 3:
+<span class="nc" id="L38">                    viewGameById(scanner);</span>
+<span class="nc" id="L39">                    break;</span>
+                case 4:
+<span class="nc" id="L41">                    viewAllGames();</span>
+<span class="nc" id="L42">                    break;</span>
+                case 5:
+<span class="nc" id="L44">                    deleteGame(scanner);</span>
+<span class="nc" id="L45">                    break;</span>
+                case 0:
+<span class="nc" id="L47">                    System.out.println(&quot;Exiting...&quot;);</span>
+<span class="nc" id="L48">                    break;</span>
+                default:
+<span class="nc" id="L50">                    System.out.println(&quot;Invalid choice. Please try again.&quot;);</span>
+            }
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        } while (choice != 0);</span>
+<span class="nc" id="L53">    }</span>
+
+    private static void addGame(Scanner scanner) {
+<span class="nc" id="L56">        System.out.println(&quot;\n=== Add New Game ===&quot;);</span>
+
+<span class="nc" id="L58">        System.out.print(&quot;Enter game name: &quot;);</span>
+<span class="nc" id="L59">        scanner.nextLine();  // Consume newline</span>
+<span class="nc" id="L60">        String name = scanner.nextLine();</span>
+
+<span class="nc" id="L62">        System.out.print(&quot;Enter difficulty (Easy/Medium/Hard): &quot;);</span>
+<span class="nc" id="L63">        String difficulty = scanner.nextLine();</span>
+
+<span class="nc" id="L65">        System.out.print(&quot;Enter average match duration (in minutes): &quot;);</span>
+<span class="nc" id="L66">        double duration = scanner.nextDouble();</span>
+<span class="nc" id="L67">        scanner.nextLine();</span>
+
+<span class="nc" id="L69">        Game newGame = new Game();</span>
+<span class="nc" id="L70">        newGame.setNom(name);</span>
+<span class="nc" id="L71">        newGame.setDifficulte(difficulty);</span>
+<span class="nc" id="L72">        newGame.setDureeMoyenneMatch(duration);</span>
+
+<span class="nc" id="L74">        gameService.addGame(newGame);</span>
+<span class="nc" id="L75">        System.out.println(&quot;Game added successfully!&quot;);</span>
+<span class="nc" id="L76">    }</span>
+    private static void updateGame(Scanner scanner) {
+<span class="nc" id="L78">        System.out.println(&quot;\n=== Update Game ===&quot;);</span>
+
+<span class="nc" id="L80">        System.out.print(&quot;Enter the game ID to update: &quot;);</span>
+<span class="nc" id="L81">        int id = scanner.nextInt();</span>
+<span class="nc" id="L82">        scanner.nextLine();  // Consume newline</span>
+
+<span class="nc" id="L84">        Game existingGame = gameService.getGame(id);</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        if (existingGame == null) {</span>
+<span class="nc" id="L86">            System.out.println(&quot;Game with ID &quot; + id + &quot; not found.&quot;);</span>
+<span class="nc" id="L87">            return;</span>
+        }
+
+<span class="nc" id="L90">        System.out.print(&quot;Enter new game name: &quot;);</span>
+<span class="nc" id="L91">        String newName = scanner.nextLine();</span>
+
+<span class="nc" id="L93">        System.out.print(&quot;Enter new difficulty (Easy/Medium/Hard): &quot;);</span>
+<span class="nc" id="L94">        String newDifficulty = scanner.nextLine();</span>
+
+<span class="nc" id="L96">        System.out.print(&quot;Enter new average match duration (in minutes): &quot;);</span>
+<span class="nc" id="L97">        double newDuration = scanner.nextDouble();</span>
+
+<span class="nc" id="L99">        existingGame.setNom(newName);</span>
+<span class="nc" id="L100">        existingGame.setDifficulte(newDifficulty);</span>
+<span class="nc" id="L101">        existingGame.setDureeMoyenneMatch(newDuration);</span>
+
+<span class="nc" id="L103">        gameService.updateGame(existingGame);</span>
+<span class="nc" id="L104">        System.out.println(&quot;Game updated successfully!&quot;);</span>
+<span class="nc" id="L105">    }</span>
+    private static void viewGameById(Scanner scanner) {
+<span class="nc" id="L107">        System.out.println(&quot;\n=== View Game by ID ===&quot;);</span>
+
+<span class="nc" id="L109">        System.out.print(&quot;Enter the game ID: &quot;);</span>
+<span class="nc" id="L110">        int id = scanner.nextInt();</span>
+
+<span class="nc" id="L112">        Game game = gameService.getGame(id);</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        if (game != null) {</span>
+<span class="nc" id="L114">            System.out.println(&quot;Game ID: &quot; + game.getId());</span>
+<span class="nc" id="L115">            System.out.println(&quot;Name: &quot; + game.getNom());</span>
+<span class="nc" id="L116">            System.out.println(&quot;Difficulty: &quot; + game.getDifficulte());</span>
+<span class="nc" id="L117">            System.out.println(&quot;Average Match Duration: &quot; + game.getDureeMoyenneMatch() + &quot; minutes&quot;);</span>
+        } else {
+<span class="nc" id="L119">            System.out.println(&quot;Game with ID &quot; + id + &quot; not found.&quot;);</span>
+        }
+<span class="nc" id="L121">    }</span>
+    private static void deleteGame(Scanner scanner) {
+<span class="nc" id="L123">        System.out.println(&quot;\n=== Delete Game ===&quot;);</span>
+
+<span class="nc" id="L125">        System.out.print(&quot;Enter the game ID to delete: &quot;);</span>
+<span class="nc" id="L126">        int id = scanner.nextInt();</span>
+<span class="nc" id="L127">        Game game = gameService.getGame(id);</span>
+
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (game != null) {</span>
+<span class="nc" id="L130">            gameService.deleteGame(game.getId());</span>
+<span class="nc" id="L131">            System.out.println(&quot;Game deleted successfully!&quot;);</span>
+        } else {
+<span class="nc" id="L133">            System.out.println(&quot;Game with ID &quot; + id + &quot; not found.&quot;);</span>
+        }
+<span class="nc" id="L135">    }</span>
+    private static void viewAllGames() {
+<span class="nc" id="L137">        System.out.println(&quot;\n=== View All Games ===&quot;);</span>
+
+<span class="nc" id="L139">        List&lt;Game&gt; games = gameService.getGames();</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">        if (games.isEmpty()) {</span>
+<span class="nc" id="L141">            System.out.println(&quot;No games found.&quot;);</span>
+        } else {
+<span class="nc bnc" id="L143" title="All 2 branches missed.">            for (Game game : games) {</span>
+<span class="nc" id="L144">                System.out.println(&quot;Game ID: &quot; + game.getId() +</span>
+<span class="nc" id="L145">                        &quot;, Name: &quot; + game.getNom() +</span>
+<span class="nc" id="L146">                        &quot;, Difficulty: &quot; + game.getDifficulte() +</span>
+<span class="nc" id="L147">                        &quot;, Average Match Duration: &quot; + game.getDureeMoyenneMatch() + &quot; minutes&quot;);</span>
+<span class="nc" id="L148">            }</span>
+        }
+<span class="nc" id="L150">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -147,5 +147,20 @@ public class TournamentDaoExtension implements TournamentDao {
         return (nbMatchs * game.getDureeMoyenneMatch()) + ((nbMatchs - 1) * tournoi.getTempsPauseEntreMatchs()) + (tournoi.getTempsCeremonie());
     }
 
+    @Override
+    public Tournament findByName(String name) {
+        EntityManager em = getEntityManager();
+        try {
+
+            TypedQuery<Tournament> query = em.createQuery("SELECT t FROM Tournament t WHERE t.titre = :name", Tournament.class);
+            query.setParameter("name", name);
+            return query.getResultStream().findFirst().orElse(null);
+        } catch (RuntimeException e) {
+            throw e;
+        } finally {
+            em.close();
+        }
+    }
+
 }
 

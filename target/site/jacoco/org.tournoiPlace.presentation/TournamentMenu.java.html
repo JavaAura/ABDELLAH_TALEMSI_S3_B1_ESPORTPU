@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TournamentMenu.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tournoiPlace</a> &gt; <a href="index.source.html" class="el_package">org.tournoiPlace.presentation</a> &gt; <span class="el_source">TournamentMenu.java</span></div><h1>TournamentMenu.java</h1><pre class="source lang-java linenums">package org.tournoiPlace.presentation;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.tournoiPlace.model.Game;
+import org.tournoiPlace.model.Tournament;
+import org.tournoiPlace.provider.ApplicationContextProvider;
+import org.tournoiPlace.service.GameService;
+import org.tournoiPlace.service.TournamentService;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Scanner;
+
+<span class="nc" id="L16">public class TournamentMenu {</span>
+
+    private static TournamentService tournamentService;
+    private static GameService gameService;
+<span class="nc" id="L20">    private static final Logger logger = LoggerFactory.getLogger(TournamentMenu.class);</span>
+
+    public static void showMenu(Scanner scanner) {
+<span class="nc" id="L23">        ApplicationContext context = ApplicationContextProvider.getContext();</span>
+<span class="nc" id="L24">        tournamentService = (TournamentService) context.getBean(&quot;tournamentService&quot;);</span>
+<span class="nc" id="L25">        gameService = (GameService) context.getBean(&quot;gameService&quot;);</span>
+
+
+        int choice;
+
+        do {
+<span class="nc" id="L31">            System.out.println(&quot;\n=== Tournament Management Menu ===&quot;);</span>
+<span class="nc" id="L32">            System.out.println(&quot;1. Add a new tournament&quot;);</span>
+<span class="nc" id="L33">            System.out.println(&quot;2. Update an existing tournament&quot;);</span>
+<span class="nc" id="L34">            System.out.println(&quot;3. View a tournament by ID&quot;);</span>
+<span class="nc" id="L35">            System.out.println(&quot;4. View all tournaments&quot;);</span>
+<span class="nc" id="L36">            System.out.println(&quot;5. Delete a tournament&quot;);</span>
+<span class="nc" id="L37">            System.out.println(&quot;6. Calculate Estimated Duration of a Tournament&quot;);</span>
+<span class="nc" id="L38">            System.out.println(&quot;0. Exit&quot;);</span>
+<span class="nc" id="L39">            System.out.print(&quot;Enter your choice: &quot;);</span>
+<span class="nc" id="L40">            choice = scanner.nextInt();</span>
+
+<span class="nc bnc" id="L42" title="All 8 branches missed.">            switch (choice) {</span>
+                case 1:
+<span class="nc" id="L44">                    addTournament(scanner);</span>
+<span class="nc" id="L45">                    break;</span>
+                case 2:
+<span class="nc" id="L47">                    updateTournament(scanner);</span>
+<span class="nc" id="L48">                    break;</span>
+                case 3:
+<span class="nc" id="L50">                    viewTournamentById(scanner);</span>
+<span class="nc" id="L51">                    break;</span>
+                case 4:
+<span class="nc" id="L53">                    viewAllTournaments();</span>
+<span class="nc" id="L54">                    break;</span>
+                case 5:
+<span class="nc" id="L56">                    deleteTournament(scanner);</span>
+<span class="nc" id="L57">                    break;</span>
+                case 6:
+<span class="nc" id="L59">                    calculateEstimatedDuration(scanner);</span>
+<span class="nc" id="L60">                    break;</span>
+                case 0:
+<span class="nc" id="L62">                    System.out.println(&quot;Exiting...&quot;);</span>
+<span class="nc" id="L63">                    break;</span>
+                default:
+<span class="nc" id="L65">                    System.out.println(&quot;Invalid choice. Please try again.&quot;);</span>
+            }
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        } while (choice != 0);</span>
+
+<span class="nc" id="L69">    }</span>
+
+    private static void calculateEstimatedDuration(Scanner scanner) {
+<span class="nc" id="L72">        System.out.println(&quot;\n=== Calculate Estimated Duration of a Tournament ===&quot;);</span>
+<span class="nc" id="L73">        List&lt;Tournament&gt; tournaments = tournamentService.getTournaments();</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        if (tournaments.isEmpty()) {</span>
+<span class="nc" id="L75">            System.out.println(&quot;No tournaments found. Please add a tournaments first.&quot;);</span>
+<span class="nc" id="L76">            return;</span>
+        }
+
+<span class="nc" id="L79">        System.out.println(&quot;\nAvailable tournaments:&quot;);</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        for (Tournament tournament : tournaments) {</span>
+<span class="nc" id="L81">            System.out.println(&quot;Team ID: &quot; + tournament.getId() + &quot;, Name: &quot; + tournament.getTitre());</span>
+<span class="nc" id="L82">        }</span>
+<span class="nc" id="L83">        System.out.print(&quot;Enter the tournament ID to assign: &quot;);</span>
+<span class="nc" id="L84">        int tournamentId = scanner.nextInt();</span>
+<span class="nc" id="L85">        scanner.nextLine();</span>
+
+<span class="nc" id="L87">        double durre_estimated = tournamentService.calculerDureeEstimeeTournoi(tournamentId);</span>
+
+<span class="nc" id="L89">        logger.info(&quot; Estimated Duration of a Tournament is: &quot; + durre_estimated);</span>
+<span class="nc" id="L90">    }</span>
+
+    private static void addTournament(Scanner scanner) {
+<span class="nc" id="L93">        System.out.println(&quot;\n=== Add New Tournament ===&quot;);</span>
+
+        // Step 1: Display existing games from the database
+<span class="nc" id="L96">        System.out.println(&quot;Choose a game from the list or add a new one:&quot;);</span>
+<span class="nc" id="L97">        List&lt;Game&gt; games = gameService.getGames();</span>
+
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        if (games.isEmpty()) {</span>
+<span class="nc" id="L100">            System.out.println(&quot;No games available.&quot;);</span>
+        } else {
+<span class="nc bnc" id="L102" title="All 2 branches missed.">            for (int i = 0; i &lt; games.size(); i++) {</span>
+<span class="nc" id="L103">                System.out.println((i + 1) + &quot;. &quot; + games.get(i).getNom());</span>
+            }
+        }
+
+<span class="nc" id="L107">        System.out.println((games.size() + 1) + &quot;. Add a new game&quot;);</span>
+<span class="nc" id="L108">        System.out.print(&quot;Enter your choice: &quot;);</span>
+<span class="nc" id="L109">        int gameChoice = scanner.nextInt();</span>
+<span class="nc" id="L110">        scanner.nextLine();</span>
+
+        Game selectedGame;
+
+
+<span class="nc bnc" id="L115" title="All 2 branches missed.">        if (gameChoice == games.size() + 1) {</span>
+            // Add a new game
+<span class="nc" id="L117">            System.out.print(&quot;Enter new game name: &quot;);</span>
+<span class="nc" id="L118">            String newGameName = scanner.nextLine();</span>
+
+<span class="nc" id="L120">            System.out.print(&quot;Enter difficulty (Easy/Medium/Hard): &quot;);</span>
+<span class="nc" id="L121">            String newGameDifficulty = scanner.nextLine();</span>
+
+<span class="nc" id="L123">            System.out.print(&quot;Enter average match duration (in minutes): &quot;);</span>
+<span class="nc" id="L124">            double newGameDuration = scanner.nextDouble();</span>
+<span class="nc" id="L125">            scanner.nextLine(); // Consume newline left-over</span>
+
+<span class="nc" id="L127">            selectedGame = new Game();</span>
+<span class="nc" id="L128">            selectedGame.setNom(newGameName);</span>
+<span class="nc" id="L129">            selectedGame.setDifficulte(newGameDifficulty);</span>
+<span class="nc" id="L130">            selectedGame.setDureeMoyenneMatch(newGameDuration);</span>
+
+            // Save the new game to the database
+<span class="nc" id="L133">            gameService.addGame(selectedGame);</span>
+<span class="nc" id="L134">            System.out.println(&quot;New game added: &quot; + selectedGame.getNom());</span>
+<span class="nc bnc" id="L135" title="All 4 branches missed.">        } else if (gameChoice &gt; 0 &amp;&amp; gameChoice &lt;= games.size()) {</span>
+            // Select an existing game
+<span class="nc" id="L137">            selectedGame = games.get(gameChoice - 1);</span>
+<span class="nc" id="L138">            System.out.println(&quot;Selected game: &quot; + selectedGame.getNom());</span>
+        } else {
+<span class="nc" id="L140">            System.out.println(&quot;Invalid choice. Returning to main menu.&quot;);</span>
+<span class="nc" id="L141">            return;</span>
+        }
+
+        // Step 3: Collect the rest of the tournament details
+<span class="nc" id="L145">        System.out.print(&quot;Enter tournament title: &quot;);</span>
+<span class="nc" id="L146">        String title = scanner.nextLine();</span>
+
+<span class="nc" id="L148">        System.out.print(&quot;Enter start date (YYYY-MM-DD): &quot;);</span>
+<span class="nc" id="L149">        String startDate = scanner.nextLine();</span>
+
+<span class="nc" id="L151">        System.out.print(&quot;Enter end date (YYYY-MM-DD): &quot;);</span>
+<span class="nc" id="L152">        String endDate = scanner.nextLine();</span>
+
+        // Step 4: Enum validation for Tournament Status
+<span class="nc" id="L155">        System.out.println(&quot;Enter tournament status: &quot;);</span>
+<span class="nc bnc" id="L156" title="All 2 branches missed.">        for (Tournament.Statut statut : Tournament.Statut.values()) {</span>
+<span class="nc" id="L157">            System.out.println(statut);</span>
+        }
+
+<span class="nc" id="L160">        Tournament.Statut status = null;</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">        while (status == null) {</span>
+<span class="nc" id="L162">            System.out.print(&quot;Enter tournament status (PLANIFIE/EN_COURS/TERMINE/ANNULE): &quot;);</span>
+<span class="nc" id="L163">            String statusInput = scanner.nextLine();</span>
+            try {
+<span class="nc" id="L165">                status = Tournament.Statut.valueOf(statusInput.toUpperCase());</span>
+<span class="nc" id="L166">            } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L167">                System.out.println(&quot;Invalid status. Please enter a valid status.&quot;);</span>
+<span class="nc" id="L168">            }</span>
+<span class="nc" id="L169">        }</span>
+
+        // Step 5: Collect additional tournament details
+<span class="nc" id="L172">        System.out.print(&quot;Enter estimated duration of the tournament (in hours): &quot;);</span>
+<span class="nc" id="L173">        double dureeEstimee = scanner.nextDouble();</span>
+
+<span class="nc" id="L175">        System.out.print(&quot;Enter break time between matches (in minutes): &quot;);</span>
+<span class="nc" id="L176">        double tempsPauseEntreMatchs = scanner.nextDouble();</span>
+
+<span class="nc" id="L178">        System.out.print(&quot;Enter number of spectators: &quot;);</span>
+<span class="nc" id="L179">        scanner.nextLine();</span>
+<span class="nc" id="L180">        String nombreDeSpectateurs = scanner.nextLine();</span>
+
+<span class="nc" id="L182">        System.out.print(&quot;Enter ceremony time (in minutes): &quot;);</span>
+<span class="nc" id="L183">        double tempsCeremonie = scanner.nextDouble();</span>
+<span class="nc" id="L184">        scanner.nextLine();</span>
+
+        // Step 6: Create the tournament and save it to the database
+<span class="nc" id="L187">        Tournament tournament = new Tournament();</span>
+<span class="nc" id="L188">        tournament.setTitre(title);</span>
+<span class="nc" id="L189">        tournament.setGame(selectedGame); // Set the selected game</span>
+<span class="nc" id="L190">        tournament.setDateDebut(LocalDate.parse(startDate));</span>
+<span class="nc" id="L191">        tournament.setDateFin(LocalDate.parse(endDate));</span>
+<span class="nc" id="L192">        tournament.setStatut(status); // Use the validated status</span>
+<span class="nc" id="L193">        tournament.setDureeEstimee(dureeEstimee);</span>
+<span class="nc" id="L194">        tournament.setTempsPauseEntreMatchs(tempsPauseEntreMatchs);</span>
+<span class="nc" id="L195">        tournament.setNombreDeSpectateurs(nombreDeSpectateurs);</span>
+<span class="nc" id="L196">        tournament.setTempsCeremone(tempsCeremonie);</span>
+
+<span class="nc" id="L198">        tournamentService.addTournament(tournament);</span>
+<span class="nc" id="L199">        System.out.println(&quot;Tournament added successfully!&quot;);</span>
+<span class="nc" id="L200">    }</span>
+
+
+    private static void updateTournament(Scanner scanner) {
+<span class="nc" id="L204">        System.out.println(&quot;\n=== Update Tournament ===&quot;);</span>
+
+<span class="nc" id="L206">        System.out.print(&quot;Enter the tournament ID to update: &quot;);</span>
+<span class="nc" id="L207">        int id = scanner.nextInt();</span>
+<span class="nc" id="L208">        scanner.nextLine(); // Consume newline left-over</span>
+
+<span class="nc" id="L210">        Tournament existingTournament = tournamentService.getTournament(id);</span>
+<span class="nc bnc" id="L211" title="All 2 branches missed.">        if (existingTournament == null) {</span>
+<span class="nc" id="L212">            System.out.println(&quot;Tournament with ID &quot; + id + &quot; not found.&quot;);</span>
+<span class="nc" id="L213">            return;</span>
+        }
+
+<span class="nc" id="L216">        System.out.println(&quot;Choose a game from the list or add a new one:&quot;);</span>
+<span class="nc" id="L217">        List&lt;Game&gt; games = gameService.getGames();</span>
+
+<span class="nc bnc" id="L219" title="All 2 branches missed.">        if (games.isEmpty()) {</span>
+<span class="nc" id="L220">            System.out.println(&quot;No games available.&quot;);</span>
+        } else {
+<span class="nc bnc" id="L222" title="All 2 branches missed.">            for (int i = 0; i &lt; games.size(); i++) {</span>
+<span class="nc" id="L223">                System.out.println((i + 1) + &quot;. &quot; + games.get(i).getNom());</span>
+            }
+        }
+
+<span class="nc" id="L227">        System.out.println((games.size() + 1) + &quot;. Add a new game&quot;);</span>
+<span class="nc" id="L228">        System.out.print(&quot;Enter your choice: &quot;);</span>
+<span class="nc" id="L229">        int gameChoice = scanner.nextInt();</span>
+<span class="nc" id="L230">        scanner.nextLine();</span>
+
+        Game selectedGame;
+
+<span class="nc bnc" id="L234" title="All 2 branches missed.">        if (gameChoice == games.size() + 1) {</span>
+
+<span class="nc" id="L236">            System.out.print(&quot;Enter new game name: &quot;);</span>
+<span class="nc" id="L237">            String newGameName = scanner.nextLine();</span>
+
+<span class="nc" id="L239">            System.out.print(&quot;Enter difficulty (Easy/Medium/Hard): &quot;);</span>
+<span class="nc" id="L240">            String newGameDifficulty = scanner.nextLine();</span>
+
+<span class="nc" id="L242">            System.out.print(&quot;Enter average match duration (in minutes): &quot;);</span>
+<span class="nc" id="L243">            double newGameDuration = scanner.nextDouble();</span>
+<span class="nc" id="L244">            scanner.nextLine();</span>
+
+<span class="nc" id="L246">            selectedGame = new Game();</span>
+<span class="nc" id="L247">            selectedGame.setNom(newGameName);</span>
+<span class="nc" id="L248">            selectedGame.setDifficulte(newGameDifficulty);</span>
+<span class="nc" id="L249">            selectedGame.setDureeMoyenneMatch(newGameDuration);</span>
+
+<span class="nc" id="L251">            gameService.addGame(selectedGame);</span>
+<span class="nc" id="L252">            System.out.println(&quot;New game added: &quot; + selectedGame.getNom());</span>
+<span class="nc bnc" id="L253" title="All 4 branches missed.">        } else if (gameChoice &gt; 0 &amp;&amp; gameChoice &lt;= games.size()) {</span>
+            // Select an existing game
+<span class="nc" id="L255">            selectedGame = games.get(gameChoice - 1);</span>
+<span class="nc" id="L256">            System.out.println(&quot;Selected game: &quot; + selectedGame.getNom());</span>
+        } else {
+<span class="nc" id="L258">            System.out.println(&quot;Invalid choice. Returning to main menu.&quot;);</span>
+<span class="nc" id="L259">            return;</span>
+        }
+
+<span class="nc" id="L262">        System.out.print(&quot;Enter new tournament title (or press Enter to leave unchanged): &quot;);</span>
+<span class="nc" id="L263">        String newTitle = scanner.nextLine();</span>
+<span class="nc bnc" id="L264" title="All 2 branches missed.">        if (!newTitle.trim().isEmpty()) {</span>
+<span class="nc" id="L265">            existingTournament.setTitre(newTitle);</span>
+        }
+
+<span class="nc" id="L268">        System.out.print(&quot;Enter new start date (YYYY-MM-DD) (or press Enter to leave unchanged): &quot;);</span>
+<span class="nc" id="L269">        String newStartDate = scanner.nextLine();</span>
+<span class="nc bnc" id="L270" title="All 2 branches missed.">        if (!newStartDate.trim().isEmpty()) {</span>
+<span class="nc" id="L271">            existingTournament.setDateDebut(LocalDate.parse(newStartDate));</span>
+        }
+
+<span class="nc" id="L274">        System.out.print(&quot;Enter new end date (YYYY-MM-DD) (or press Enter to leave unchanged): &quot;);</span>
+<span class="nc" id="L275">        String newEndDate = scanner.nextLine();</span>
+<span class="nc bnc" id="L276" title="All 2 branches missed.">        if (!newEndDate.trim().isEmpty()) {</span>
+<span class="nc" id="L277">            existingTournament.setDateFin(LocalDate.parse(newEndDate));</span>
+        }
+
+<span class="nc" id="L280">        System.out.print(&quot;Enter new tournament status (PLANNED/ONGOING/COMPLETED) (or press Enter to leave unchanged): &quot;);</span>
+<span class="nc" id="L281">        String newStatus = scanner.nextLine();</span>
+<span class="nc bnc" id="L282" title="All 2 branches missed.">        if (!newStatus.trim().isEmpty()) {</span>
+<span class="nc" id="L283">            existingTournament.setStatut(Tournament.Statut.valueOf(newStatus));</span>
+        }
+
+<span class="nc" id="L286">        existingTournament.setGame(selectedGame);</span>
+
+
+<span class="nc" id="L289">        tournamentService.updateTournament(existingTournament);</span>
+<span class="nc" id="L290">        System.out.println(&quot;Tournament updated successfully!&quot;);</span>
+<span class="nc" id="L291">    }</span>
+
+    private static void viewTournamentById(Scanner scanner) {
+<span class="nc" id="L294">        System.out.println(&quot;\n=== View Tournament by ID ===&quot;);</span>
+
+<span class="nc" id="L296">        System.out.print(&quot;Enter the tournament ID: &quot;);</span>
+<span class="nc" id="L297">        int id = scanner.nextInt();</span>
+
+<span class="nc" id="L299">        Tournament tournament = tournamentService.getTournament(id);</span>
+<span class="nc bnc" id="L300" title="All 2 branches missed.">        if (tournament != null) {</span>
+<span class="nc" id="L301">            System.out.println(&quot;Tournament ID: &quot; + tournament.getId());</span>
+<span class="nc" id="L302">            System.out.println(&quot;Title: &quot; + tournament.getTitre());</span>
+<span class="nc" id="L303">            System.out.println(&quot;Game: &quot; + tournament.getGame().getNom());</span>
+<span class="nc" id="L304">            System.out.println(&quot;Start Date: &quot; + tournament.getDateDebut());</span>
+<span class="nc" id="L305">            System.out.println(&quot;End Date: &quot; + tournament.getDateFin());</span>
+<span class="nc" id="L306">            System.out.println(&quot;Status: &quot; + tournament.getStatut());</span>
+        } else {
+<span class="nc" id="L308">            System.out.println(&quot;Tournament with ID &quot; + id + &quot; not found.&quot;);</span>
+        }
+<span class="nc" id="L310">    }</span>
+
+    private static void viewAllTournaments() {
+<span class="nc" id="L313">        System.out.println(&quot;\n=== View All Tournaments ===&quot;);</span>
+
+<span class="nc" id="L315">        List&lt;Tournament&gt; tournaments = tournamentService.getTournaments();</span>
+<span class="nc bnc" id="L316" title="All 2 branches missed.">        if (tournaments.isEmpty()) {</span>
+<span class="nc" id="L317">            System.out.println(&quot;No tournaments found.&quot;);</span>
+        } else {
+<span class="nc bnc" id="L319" title="All 2 branches missed.">            for (Tournament tournament : tournaments) {</span>
+<span class="nc" id="L320">                System.out.println(&quot;Tournament ID: &quot; + tournament.getId() +</span>
+<span class="nc" id="L321">                        &quot;, Title: &quot; + tournament.getTitre() +</span>
+<span class="nc" id="L322">                        &quot;, Game: &quot; + tournament.getGame().getNom() +</span>
+<span class="nc" id="L323">                        &quot;, Start Date: &quot; + tournament.getDateDebut() +</span>
+<span class="nc" id="L324">                        &quot;, End Date: &quot; + tournament.getDateFin() +</span>
+<span class="nc" id="L325">                        &quot;, Spectator Number: &quot; + tournament.getNombreDeSpectateurs() +</span>
+<span class="nc" id="L326">                        &quot;, Ceremonie Duration: &quot; + tournament.getTempsCeremonie() +</span>
+<span class="nc" id="L327">                        &quot;, Pause Between Matches: &quot; + tournament.getTempsPauseEntreMatchs() +</span>
+<span class="nc" id="L328">                        &quot;, Status: &quot; + tournament.getStatut());</span>
+<span class="nc" id="L329">            }</span>
+        }
+<span class="nc" id="L331">    }</span>
+
+    private static void deleteTournament(Scanner scanner) {
+<span class="nc" id="L334">        System.out.println(&quot;\n=== Delete Tournament ===&quot;);</span>
+
+<span class="nc" id="L336">        System.out.print(&quot;Enter the tournament ID to delete: &quot;);</span>
+<span class="nc" id="L337">        int id = scanner.nextInt();</span>
+<span class="nc" id="L338">        Tournament tournament = tournamentService.getTournament(id);</span>
+
+<span class="nc" id="L340">        tournamentService.deleteTournament(tournament);</span>
+<span class="nc" id="L341">        System.out.println(&quot;Tournament deleted successfully!&quot;);</span>
+<span class="nc" id="L342">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
