@@ -28,9 +28,9 @@ public class TournamentServiceImpl implements TournamentService {
 
     @Override
     public void updateTournament(Tournament tournament) {
-<span class="nc" id="L31">        tournamentDao.updateTournament(tournament);</span>
+<span class="fc" id="L31">        tournamentDao.updateTournament(tournament);</span>
 
-<span class="nc" id="L33">    }</span>
+<span class="fc" id="L33">    }</span>
 
     @Override
     public void deleteTournament(Tournament tournament) {
@@ -44,12 +44,12 @@ public class TournamentServiceImpl implements TournamentService {
 
     @Override
     public List&lt;Tournament&gt; getTournaments() {
-<span class="nc" id="L47">        return tournamentDao.getTournaments();</span>
+<span class="fc" id="L47">        return tournamentDao.getTournaments();</span>
     }
 
     @Override
     public double calculerDureeEstimeeTournoi(int tournoiId) {
-<span class="nc" id="L52">        return tournamentDao.calculerDureeEstimeeTournoi(tournoiId);</span>
+<span class="fc" id="L52">        return tournamentDao.calculerDureeEstimeeTournoi(tournoiId);</span>
     }
 
     @Override

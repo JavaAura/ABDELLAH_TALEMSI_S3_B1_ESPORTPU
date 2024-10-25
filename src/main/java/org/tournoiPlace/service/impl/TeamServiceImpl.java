@@ -39,4 +39,9 @@ public class TeamServiceImpl implements TeamService {
     public Team getTeam(int id) {
         return teamDao.getTeamById(id);
     }
+
+    @Override
+    public Team getTeamByName(String name) {
+        return teamDao.findByName(name);
+    }
 }

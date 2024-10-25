@@ -4,9 +4,11 @@ package org.tournoiPlace.dao.daoImpl;
 import org.tournoiPlace.dao.TeamDao;
 import org.tournoiPlace.model.Game;
 import org.tournoiPlace.model.Team;
+import org.tournoiPlace.model.Tournament;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 import java.util.Collections;
 import java.util.List;
 
@@ -91,6 +93,21 @@ public class TeamDaoImpl implements TeamDao {
             return entityManager.createQuery("FROM Team ", Team.class).getResultList();
         } finally {
             entityManager.close();
+        }
+    }
+
+    @Override
+    public Team findByName(String name) {
+        EntityManager em = getEntityManager();
+        try {
+
+            TypedQuery<Team> query = em.createQuery("SELECT t FROM Team t WHERE t.nom = :name", Team.class);
+            query.setParameter("name", name);
+            return query.getResultStream().findFirst().orElse(null);
+        } catch (RuntimeException e) {
+            throw e;
+        } finally {
+            em.close();
         }
     }
 }

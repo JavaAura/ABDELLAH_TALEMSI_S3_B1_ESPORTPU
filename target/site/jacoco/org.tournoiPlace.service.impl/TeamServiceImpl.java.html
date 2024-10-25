@@ -15,29 +15,34 @@ public class TeamServiceImpl implements TeamService {
 <span class="fc" id="L15">    }</span>
     @Override
     public void addTeam(Team team) {
-<span class="nc" id="L18">        teamDao.addTeam(team);</span>
-<span class="nc" id="L19">    }</span>
+<span class="fc" id="L18">        teamDao.addTeam(team);</span>
+<span class="fc" id="L19">    }</span>
 
     @Override
     public void deleteTeam(int teamId) {
-<span class="nc" id="L23">        teamDao.deleteTeam(teamId);</span>
+<span class="fc" id="L23">        teamDao.deleteTeam(teamId);</span>
 
-<span class="nc" id="L25">    }</span>
+<span class="fc" id="L25">    }</span>
 
     @Override
     public void updateTeam(Team team) {
-<span class="nc" id="L29">        teamDao.updateTeam(team);</span>
+<span class="fc" id="L29">        teamDao.updateTeam(team);</span>
 
-<span class="nc" id="L31">    }</span>
+<span class="fc" id="L31">    }</span>
 
     @Override
     public List&lt;Team&gt; getTeams() {
-<span class="nc" id="L35">        return teamDao.getAllTeams();</span>
+<span class="fc" id="L35">        return teamDao.getAllTeams();</span>
     }
 
     @Override
     public Team getTeam(int id) {
-<span class="nc" id="L40">        return teamDao.getTeamById(id);</span>
+<span class="fc" id="L40">        return teamDao.getTeamById(id);</span>
+    }
+
+    @Override
+    public Team getTeamByName(String name) {
+<span class="fc" id="L45">        return teamDao.findByName(name);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

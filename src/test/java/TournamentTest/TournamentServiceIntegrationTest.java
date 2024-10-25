@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.tournoiPlace.model.Tournament;
+import org.tournoiPlace.provider.ApplicationContextProvider;
 import org.tournoiPlace.service.TournamentService;
 
 import javax.transaction.Transactional;
@@ -21,8 +22,7 @@ public class TournamentServiceIntegrationTest {
 
     @Before
     public void setUp() throws Exception {
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-
+        ApplicationContext context = ApplicationContextProvider.getContext();
         tournamentService = (TournamentService) context.getBean("tournamentService");
     }
 
