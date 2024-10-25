@@ -1,6 +1,7 @@
 org\tournoiPlace\dao\daoImpl\TeamDaoImpl.class
 org\tournoiPlace\service\TournamentService.class
 org\tournoiPlace\dao\TeamDao.class
+org\tournoiPlace\utilitaire\InputValidator.class
 org\tournoiPlace\service\impl\TournamentServiceImpl.class
 org\tournoiPlace\dao\PlayerDao.class
 org\tournoiPlace\service\PlayerService.class

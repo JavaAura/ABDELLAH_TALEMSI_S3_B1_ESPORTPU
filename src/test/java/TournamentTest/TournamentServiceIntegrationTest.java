@@ -1,7 +1,8 @@
 package TournamentTest;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -18,9 +19,9 @@ import java.time.LocalDate;
 
 public class TournamentServiceIntegrationTest {
     private TournamentService tournamentService;
+    private Tournament fechedTournament;
 
-
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         ApplicationContext context = ApplicationContextProvider.getContext();
         tournamentService = (TournamentService) context.getBean("tournamentService");
@@ -36,9 +37,16 @@ public class TournamentServiceIntegrationTest {
         tournament.setStatut(Tournament.Statut.EN_COURS);
 
         tournamentService.addTournament(tournament);
-
-        Tournament fechedTournament = tournamentService.getTournamentByName("test");
+        fechedTournament = tournamentService.getTournamentByName("test");
         assert  fechedTournament != null;
         assert fechedTournament.getTitre().equals(tournament.getTitre());
+    }
+
+    @AfterEach
+    public void cleanup() {
+        // Step 4: Clean up by deleting the tournament after the test
+        if (fechedTournament != null && fechedTournament.getId() > 0) {
+            tournamentService.deleteTournament(fechedTournament);
+        }
     }
 }

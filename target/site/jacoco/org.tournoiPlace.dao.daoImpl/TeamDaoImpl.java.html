@@ -58,22 +58,22 @@ import java.util.List;
 
     @Override
     public void deleteTeam(int teamId) {
-<span class="nc" id="L61">        EntityManager em = getEntityManager();</span>
+<span class="fc" id="L61">        EntityManager em = getEntityManager();</span>
         try {
-<span class="nc" id="L63">            em.getTransaction().begin();</span>
-<span class="nc" id="L64">            Game game = em.find(Game.class, teamId);</span>
-<span class="nc bnc" id="L65" title="All 2 branches missed.">            if (game != null) {</span>
+<span class="fc" id="L63">            em.getTransaction().begin();</span>
+<span class="fc" id="L64">            Game game = em.find(Game.class, teamId);</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">            if (game != null) {</span>
 <span class="nc" id="L66">                em.remove(game);</span>
             }
-<span class="nc" id="L68">            em.getTransaction().commit();</span>
+<span class="fc" id="L68">            em.getTransaction().commit();</span>
 <span class="nc" id="L69">        }catch (RuntimeException e) {</span>
 <span class="nc" id="L70">            em.getTransaction().rollback();</span>
 <span class="nc" id="L71">            throw e;</span>
         }finally {
-<span class="nc" id="L73">            em.close();</span>
+<span class="fc" id="L73">            em.close();</span>
         }
 
-<span class="nc" id="L76">    }</span>
+<span class="fc" id="L76">    }</span>
 
     @Override
     public Team getTeamById(int id) {

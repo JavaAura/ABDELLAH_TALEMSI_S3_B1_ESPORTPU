@@ -7,6 +7,8 @@ import org.tournoiPlace.service.GameService;
 import java.util.List;
 import java.util.Scanner;
 
+import static org.tournoiPlace.utilitaire.InputValidator.*;
+
 public class GameMenu {
     private static GameService gameService;
 
@@ -55,17 +57,23 @@ public class GameMenu {
     private static void addGame(Scanner scanner) {
         System.out.println("\n=== Add New Game ===");
 
-        System.out.print("Enter game name: ");
-        scanner.nextLine();  // Consume newline
-        String name = scanner.nextLine();
+        // Use your validation method for game name
+        String name = readValidString("game name");
 
-        System.out.print("Enter difficulty (Easy/Medium/Hard): ");
-        String difficulty = scanner.nextLine();
+        // Use your validation method for difficulty
+        String difficulty;
+        do {
+            System.out.print("Enter difficulty (Easy/Medium/Hard): ");
+            difficulty = scanner.nextLine();
+            if (!validateDifficulty(difficulty)) {
+                System.out.println("Invalid difficulty! Please enter one of: Easy, Medium, Hard.");
+            }
+        } while (!validateDifficulty(difficulty));
 
-        System.out.print("Enter average match duration (in minutes): ");
-        double duration = scanner.nextDouble();
-        scanner.nextLine();
+        // Use your validation method for average match duration
+        double duration = readValidPositiveDouble("average match duration (in minutes)");
 
+        // Create and add the new game
         Game newGame = new Game();
         newGame.setNom(name);
         newGame.setDifficulte(difficulty);
@@ -74,12 +82,12 @@ public class GameMenu {
         gameService.addGame(newGame);
         System.out.println("Game added successfully!");
     }
+
     private static void updateGame(Scanner scanner) {
         System.out.println("\n=== Update Game ===");
 
         System.out.print("Enter the game ID to update: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();  // Consume newline
+        int id = readValidPositiveInt("game ID");
 
         Game existingGame = gameService.getGame(id);
         if (existingGame == null) {
@@ -87,15 +95,19 @@ public class GameMenu {
             return;
         }
 
-        System.out.print("Enter new game name: ");
-        String newName = scanner.nextLine();
+        // Use your validation method for new game name
+        String newName = readValidString("new game name");
 
-        System.out.print("Enter new difficulty (Easy/Medium/Hard): ");
-        String newDifficulty = scanner.nextLine();
+        String newDifficulty;
+        do {
+            System.out.print("Enter new difficulty (Easy/Medium/Hard): ");
+            newDifficulty = scanner.nextLine();
+            if (!validateDifficulty(newDifficulty)) {
+                System.out.println("Invalid difficulty! Please enter one of: Easy, Medium, Hard.");
+            }
+        } while (!validateDifficulty(newDifficulty));
 
-        System.out.print("Enter new average match duration (in minutes): ");
-        double newDuration = scanner.nextDouble();
-
+        double newDuration = readValidPositiveDouble("new average match duration (in minutes)");
         existingGame.setNom(newName);
         existingGame.setDifficulte(newDifficulty);
         existingGame.setDureeMoyenneMatch(newDuration);
@@ -103,6 +115,7 @@ public class GameMenu {
         gameService.updateGame(existingGame);
         System.out.println("Game updated successfully!");
     }
+
     private static void viewGameById(Scanner scanner) {
         System.out.println("\n=== View Game by ID ===");
 

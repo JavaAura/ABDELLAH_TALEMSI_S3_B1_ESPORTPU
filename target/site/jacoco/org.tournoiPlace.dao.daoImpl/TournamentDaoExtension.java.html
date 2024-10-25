@@ -56,25 +56,25 @@ import java.util.List;
 
     @Override
     public void deleteTournament(Tournament tournament) {
-<span class="nc" id="L59">        EntityManager em = getEntityManager();</span>
+<span class="fc" id="L59">        EntityManager em = getEntityManager();</span>
         try {
-<span class="nc" id="L61">            em.getTransaction().begin();</span>
+<span class="fc" id="L61">            em.getTransaction().begin();</span>
 
-<span class="nc" id="L63">            Tournament tour = em.find(Tournament.class, tournament.getId());</span>
-<span class="nc bnc" id="L64" title="All 2 branches missed.">            if (tour != null) {</span>
-<span class="nc" id="L65">                em.remove(tour);</span>
+<span class="fc" id="L63">            Tournament tour = em.find(Tournament.class, tournament.getId());</span>
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">            if (tour != null) {</span>
+<span class="fc" id="L65">                em.remove(tour);</span>
             }
 
-<span class="nc" id="L68">            em.getTransaction().commit();</span>
+<span class="fc" id="L68">            em.getTransaction().commit();</span>
 <span class="nc" id="L69">        } catch (RuntimeException e) {</span>
 <span class="nc bnc" id="L70" title="All 2 branches missed.">            if (em.getTransaction().isActive()) {</span>
 <span class="nc" id="L71">                em.getTransaction().rollback();</span>
             }
 <span class="nc" id="L73">            throw e;</span>
         } finally {
-<span class="nc" id="L75">            em.close();</span>
+<span class="fc" id="L75">            em.close();</span>
         }
-<span class="nc" id="L77">    }</span>
+<span class="fc" id="L77">    }</span>
 
     @Override
     public Tournament getTournament(int id) {

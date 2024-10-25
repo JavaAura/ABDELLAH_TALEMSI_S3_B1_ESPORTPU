@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InputValidator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tournoiPlace</a> &gt; <a href="index.source.html" class="el_package">org.tournoiPlace.utilitaire</a> &gt; <span class="el_source">InputValidator.java</span></div><h1>InputValidator.java</h1><pre class="source lang-java linenums">package org.tournoiPlace.utilitaire;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
+<span class="nc" id="L6">public class InputValidator {</span>
+
+    public static boolean validateString(String input, String fieldName) {
+<span class="nc bnc" id="L9" title="All 4 branches missed.">        if (input == null || input.trim().isEmpty()) {</span>
+<span class="nc" id="L10">            System.out.println(&quot;Invalid input: &quot; + fieldName + &quot; cannot be empty.&quot;);</span>
+<span class="nc" id="L11">            return false;</span>
+        }
+<span class="nc" id="L13">        return true;</span>
+    }
+
+    public static boolean validatePositiveInt(int number, String fieldName) {
+<span class="nc bnc" id="L17" title="All 2 branches missed.">        if (number &lt;= 0) {</span>
+<span class="nc" id="L18">            System.out.println(&quot;Invalid input: &quot; + fieldName + &quot; must be a positive integer.&quot;);</span>
+<span class="nc" id="L19">            return false;</span>
+        }
+<span class="nc" id="L21">        return true;</span>
+    }
+    public static boolean validatePositiveDouble(double number, String fieldName) {
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        if (number &lt;= 0) {</span>
+<span class="nc" id="L25">            System.out.println(&quot;Invalid input: &quot; + fieldName + &quot; must be a positive number.&quot;);</span>
+<span class="nc" id="L26">            return false;</span>
+        }
+<span class="nc" id="L28">        return true;</span>
+    }
+    public static boolean validateDate(String dateStr, String fieldName) {
+        try {
+<span class="nc" id="L32">            LocalDate.parse(dateStr);</span>
+<span class="nc" id="L33">            return true;</span>
+<span class="nc" id="L34">        } catch (DateTimeParseException e) {</span>
+<span class="nc" id="L35">            System.out.println(&quot;Invalid input: &quot; + fieldName + &quot; must be in the format YYYY-MM-DD.&quot;);</span>
+<span class="nc" id="L36">            return false;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

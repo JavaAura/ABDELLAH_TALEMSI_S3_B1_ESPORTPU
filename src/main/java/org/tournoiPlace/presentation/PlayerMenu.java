@@ -12,6 +12,9 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Scanner;
 
+import static org.tournoiPlace.utilitaire.InputValidator.readValidPositiveInt;
+import static org.tournoiPlace.utilitaire.InputValidator.readValidString;
+
 public class PlayerMenu {
     private static PlayerService playerService;
     private static TeamService teamService;
@@ -66,26 +69,21 @@ public class PlayerMenu {
     private static void addPlayer(Scanner scanner) {
         System.out.println("\n=== Add New Player ===");
 
-        System.out.print("Enter player pseudo: ");
-        scanner.nextLine();  // Consume newline
-        String pseudo = scanner.nextLine();
-
-        System.out.print("Enter player age: ");
-        String age = scanner.nextLine();
+        String pseudo = readValidString("player pseudo");
+        int age = readValidPositiveInt("player age");
 
         Player newPlayer = new Player();
         newPlayer.setPseudo(pseudo);
-        newPlayer.setAge(age);
+        newPlayer.setAge(String.valueOf(age));  // assuming age is stored as a String
 
         playerService.addPlayer(newPlayer);
         System.out.println("Player added successfully!");
     }
+
     private static void updatePlayer(Scanner scanner) {
         System.out.println("\n=== Update Player ===");
 
-        System.out.print("Enter the player ID to update: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();  // Consume newline
+        int id = readValidPositiveInt("player ID to update");
 
         Player existingPlayer = playerService.getPlayer(id);
         if (existingPlayer == null) {
@@ -93,23 +91,20 @@ public class PlayerMenu {
             return;
         }
 
-        System.out.print("Enter new player pseudo: ");
-        String newPseudo = scanner.nextLine();
-
-        System.out.print("Enter new player age: ");
-        String newAge = scanner.nextLine();
+        String newPseudo = readValidString("new player pseudo");
+        int newAge = readValidPositiveInt("new player age");
 
         existingPlayer.setPseudo(newPseudo);
-        existingPlayer.setAge(newAge);
+        existingPlayer.setAge(String.valueOf(newAge));
 
         playerService.updatePlayer(existingPlayer);
         System.out.println("Player updated successfully!");
     }
+
     private static void viewPlayerById(Scanner scanner) {
         System.out.println("\n=== View Player by ID ===");
 
-        System.out.print("Enter the player ID: ");
-        int id = scanner.nextInt();
+        int id = readValidPositiveInt("player ID");
 
         Player player = playerService.getPlayer(id);
         if (player != null) {
@@ -125,6 +120,7 @@ public class PlayerMenu {
             System.out.println("Player with ID " + id + " not found.");
         }
     }
+
     private static void viewAllPlayers() {
         System.out.println("\n=== View All Players ===");
 
@@ -140,11 +136,12 @@ public class PlayerMenu {
             }
         }
     }
+
     private static void deletePlayer(Scanner scanner) {
         System.out.println("\n=== Delete Player ===");
 
-        System.out.print("Enter the player ID to delete: ");
-        int id = scanner.nextInt();
+        int id = readValidPositiveInt("player ID to delete");
+
         Player player = playerService.getPlayer(id);
 
         if (player != null) {
@@ -154,20 +151,21 @@ public class PlayerMenu {
             System.out.println("Player with ID " + id + " not found.");
         }
     }
+
     private static void assignPlayerToTeam(Scanner scanner) {
         System.out.println("\n=== Assign Player to Team ===");
         List<Player> players = playerService.getPlayers();
         if (players.isEmpty()) {
-            System.out.println("No players found. Please add a players first.");
+            System.out.println("No players found. Please add players first.");
             return;
         }
 
         System.out.println("\nAvailable players:");
         for (Player player : players) {
-            System.out.println("Team ID: " + player.getId() + ", Name: " + player.getPseudo());
+            System.out.println("Player ID: " + player.getId() + ", Pseudo: " + player.getPseudo());
         }
-        System.out.print("Enter the player ID to assign: ");
-        int playerId = scanner.nextInt();
+
+        int playerId = readValidPositiveInt("player ID to assign");
         Player player = playerService.getPlayer(playerId);
 
         if (player == null) {
@@ -186,9 +184,7 @@ public class PlayerMenu {
             System.out.println("Team ID: " + team.getId() + ", Name: " + team.getNom());
         }
 
-
-        System.out.print("Enter the team ID to assign the player to: ");
-        int teamId = scanner.nextInt();
+        int teamId = readValidPositiveInt("team ID to assign the player to");
         Team team = teamService.getTeam(teamId);
 
         if (team == null) {
@@ -200,4 +196,5 @@ public class PlayerMenu {
         playerService.updatePlayer(player);
         System.out.println("Player " + player.getPseudo() + " has been assigned to team " + team.getNom() + " successfully!");
     }
+
 }
